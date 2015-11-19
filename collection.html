@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Donation Collection Page</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    </head>
+    <body>
+        
+        <div class="container">
+            <h1>Record Donations:</h1>
+            <div class="row">
+                <div class="col-xs-12 col-md-4 col-md-push-1 form-group">
+                    <label for="student-id">Student ID</label>
+                    <input class="form-control" type="text" id="student-id">
+                </div>
+                
+                <div class="col-xs-12 col-md-4 col-md-push-3">
+                    <label for="student-donation">Student Donation</label>
+                    <input class="form-control" type="text" id="student-donation">
+                </div>
+                
+            </div>
+            <div class="row">
+                <center>
+                    <button class="btn btn-primary" id="btn-submit">Submit</button>
+                </center>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            /*
+            1) atach an event handler to fun a function when you click 
+                on the button
+            2) Make that event handler say console.log("it's working") to
+            verify it's working
+            3) From within your event handler, create 2 variables and 
+            give them the values of whatever is in the input text boxes
+                -> use the jquery .val() function
+            4) log those values to make sure that it's working
+            5) Use the ajax post recipe to send a request to your localhost
+            server and write to the db
+            */
+        </script>
+    </body>
+</html>
