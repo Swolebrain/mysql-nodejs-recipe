@@ -28,18 +28,20 @@
         </div>
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
         <script>
-            /*
-            1) atach an event handler to run a function when you click 
-                on the button
-            2) Make that event handler say console.log("it's working") to
-            verify it's working
-            3) From within your event handler, create 2 variables and 
-            give them the values of whatever is in the input text boxes
-                -> use the jquery .val() function
-            4) log those values to make sure that it's working
-            5) Use the ajax post recipe to send a request to your localhost
-            server and write to the db
-            */
+            $("#btn-submit").on("click", function(){
+                $.ajax({
+                    url: "http://localhost:9000/transactions/"+
+                    $("#student-id").val()+"/"+$("#student-donation").val(),
+                    method: "POST",
+                    success: function(res){
+                        console.log(res);
+                    },
+                    error: function(err){
+                        alert("You probably forgot to start the node server");
+                    }
+                });
+                $("input").val("");
+            });
         </script>
     </body>
 </html>

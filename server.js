@@ -27,7 +27,8 @@ app.use(function(req, res, next){
 app.use(    bodyParser.urlencoded( {extended: true})    );
 
 app.get('/transactions', function(req,res){
-	connection.query("SELECT * FROM transactions", function(err, rows){
+	connection.query("SELECT sid, SUM(donation) AS donation FROM transactions"+
+                     " GROUP BY sid", function(err, rows){
         if (!err){
             res.setHeader("Content-Type", "application/json");
 			res.end(JSON.stringify(rows));//Important! this is how you actually
