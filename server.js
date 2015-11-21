@@ -55,6 +55,24 @@ app.post('/transactions/:sid/:donation', function(req, res){
     });
 });
 
+app.get('/bygrade/:grade', function(req,res){
+    var grade = req.params.grade;
+    var queryStr = "SELECT sid, fname, lname, sum_donation, sections.section_id, grade FROM (select sid, sum(donation) AS sum_donation, fname, lname, section_id from transactions NATURAL JOIN students group by sid) AS all_info JOIN sections ON all_info.section_id = sections.section_id ";
+    if (grade != "all")
+        queryStr += "WHERE grade='"+grade+"'";
+    connection.query(queryStr, function(err, rows){
+            if (err){
+                console.log("Query by grade failed");
+                res.end("DB error");
+            }
+            else{
+                console.log("Query by grade succeeded");
+                res.setHeader("Content-Type", "application/json");
+                res.end(JSON.stringify(rows));
+            }
+    });
+});
+
 app.listen(port);
 console.log("Server listening on port "+port);
 

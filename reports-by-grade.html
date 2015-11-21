@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Donation Collection Page</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <style>
+            table, tr{
+                width: 50%;
+                border-bottom: 1px solid white;
+                font-size: 16px;
+                margin: 0 auto;
+                text-align: center;
+            }
+            thead{
+                font-weight: bold;
+                color: white;
+                background-color: #999;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="jumbotron">
+            <div class="container">
+                <h2>Total Donations</h2>
+                <h6>Sorted by Student ID</h6>
+                <div class="row">
+                    <div class="col-xs-6 col-md-2 col-md-push-2">
+                        <button id="btn9" class="btn btn-primary">9th Grade</button>
+                    </div>
+                    <div class="col-xs-6 col-md-2 col-md-push-2">
+                        <button id="btn10" class="btn btn-primary">10th Grade</button>
+                    </div>
+                    <div class="col-xs-6 col-md-2 col-md-push-2">
+                        <button id="btn11" class="btn btn-primary">11th Grade</button>
+                    </div>
+                    <div class="col-xs-6 col-md-2 col-md-push-2">
+                        <button id="btn12" class="btn btn-primary">12th Grade</button>
+                    </div>
+                </div>
+                <br><br>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Student ID</td>
+                            <td>First Name</td>
+                            <td>Last Name</td>
+                            <td>Grade</td>
+                            <td>Total Contribution</td>
+                        </tr>
+                    </thead>
+                    <tbody id="query-output">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            function requestData(grade){
+                $("#query-output").html("");
+                $.ajax({
+                    url: "http://localhost:9000/bygrade/"+grade,
+                    success: function(res){
+                        console.log(res);
+                        for (var i = 0; i < res.length; i++){
+                            $("#query-output").append(
+                            "<tr><td>"+res[i].sid+"</td>"+
+                            "<td>"+res[i].fname+"</td>"+
+                            "<td>"+res[i].lname+"</td>"+
+                            "<td>"+res[i].grade+"</td>"+
+                            "<td>"+res[i].sum_donation+"</td></tr>"
+                            );
+                        }
+                    }
+                });
+            }
+            
+            $("#btn9").on("click", function(){
+               requestData("9"); 
+            });
+            $("#btn10").on("click", function(){
+               requestData("10"); 
+            });
+            $("#btn11").on("click", function(){
+               requestData("11"); 
+            });
+            $("#btn12").on("click", function(){
+               requestData("12"); 
+            });
+
+        </script>
+    </body>
+</html>
