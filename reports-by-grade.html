@@ -31,6 +31,9 @@
                 text-align:center;
                 padding-top:25px;
             }
+            select{
+                width:90%;
+            }
         </style>
     </head>
     <body>
@@ -104,6 +107,10 @@
                requestData("12"); 
             });
             
+            $("select").on("change", function(e){
+                requestDataBySection( $(this).val() );
+            });
+            
             populateSelects("9");
             populateSelects("10");
             populateSelects("11");
@@ -139,6 +146,26 @@
                     }
                 });
             }
+            
+            function requestDataBySection(secid){
+                $("#query-output").html("");
+                $.ajax({
+                    url: "http://localhost:9000/bysection/"+secid,
+                    success: function(res){
+                        console.log(res);
+                        for (var i = 0; i < res.length; i++){
+                            $("#query-output").append(
+                            "<tr><td>"+res[i].sid+"</td>"+
+                            "<td>"+res[i].fname+"</td>"+
+                            "<td>"+res[i].lname+"</td>"+
+                            "<td>"+res[i].section_id.substring(0, res[i].section_id.length-1)+"</td>"+
+                            "<td>"+res[i].sum_donation+"</td></tr>"
+                            );
+                        }
+                    }
+                });
+            }
+            
 
         </script>
     </body>

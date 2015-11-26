@@ -74,8 +74,19 @@ app.get('/bygrade/:grade', function(req,res){
 });
 
 app.get('/bysection/:sectionid', function(req,res){
-    var section = req.params.grade;
-    
+    var sectionid = req.params.sectionid;
+    var queryStr = "select * from students NATURAL JOIN (SELECT sid, sum(donation) as sum_donation from transactions group by sid) AS trans WHERE section_id = '"+sectionid+"'";
+    connection.query(queryStr, function(err, rows){
+        if (err){
+                console.log("Section id query failed - "+ err);
+                res.end("DB error - "+ err);
+        }
+        else{
+            console.log("Query by section succeeded");
+            res.setHeader("Content-Type", "application/json");
+            res.end(JSON.stringify(rows));
+        }
+    });
 });
 
 app.get('/getsections/:grade', function(req, res){
@@ -94,6 +105,7 @@ app.get('/getsections/:grade', function(req, res){
         }
     });
 });
+
 
 app.listen(port);
 console.log("Server listening on port "+port);
