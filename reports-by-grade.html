@@ -121,6 +121,15 @@
                requestData("12"); 
             });
             
+            $.ajax({ url: "http://localhost:9000/getsections/9",
+                    success: function(resp){
+                        var select = $("#select9");
+                        for (var i =0; i < resp.length; i++){
+                            select.append('<option value="'+resp[i].section_id+'">'+
+                            resp[i].teacher_name+" "+resp[i].section_id+'</option>');
+                        }
+                    }
+            });
 
         </script>
     </body>

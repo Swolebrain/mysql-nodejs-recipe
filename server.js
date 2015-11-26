@@ -73,7 +73,27 @@ app.get('/bygrade/:grade', function(req,res){
     });
 });
 
+app.get('/bysection/:sectionid', function(req,res){
+    var section = req.params.grade;
+    
+});
 
+app.get('/getsections/:grade', function(req, res){
+    var grade = req.params.grade;
+    var queryStr = "SELECT section_id, teacher_name from sections WHERE "+
+            "grade = '"+grade+"'";
+    connection.query(queryStr, function(err, rows){
+        if (err){
+                console.log("Sections query failed - "+ err);
+                res.end("DB error - "+ err);
+        }
+        else{
+            console.log("Query by section succeeded");
+            res.setHeader("Content-Type", "application/json");
+            res.end(JSON.stringify(rows));
+        }
+    });
+});
 
 app.listen(port);
 console.log("Server listening on port "+port);
