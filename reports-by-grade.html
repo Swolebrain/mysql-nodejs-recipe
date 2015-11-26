@@ -16,27 +16,60 @@
                 color: white;
                 background-color: #999;
             }
+            .jumbotron{
+                position:absolute;
+                width:80%;
+                right:0;
+            }
+            .menu{
+                position:absolute;
+                top:0;
+                left:0;
+                width:20%;
+            }
+            .menu-item, .menu h2{
+                text-align:center;
+                padding-top:25px;
+            }
         </style>
     </head>
     <body>
+        <div class="menu">
+            <h2>Select Report</h2>
+            <div class="menu-item">
+                <button id="btn9" class="btn btn-primary">9th Grade</button>
+            </div>
+            <div class="menu-item">
+                <select id="select9">
+                </select>
+            </div>
+            <div class="menu-item">
+                <button id="btn10" class="btn btn-primary">10th Grade</button>
+            </div>
+            <div class="menu-item">
+                <select id="select10">
+                </select>
+            </div>
+            <div class="menu-item">
+                <button id="btn11" class="btn btn-primary">11th Grade</button>
+            </div>
+            <div class="menu-item">
+                <select id="select11">
+                </select>
+            </div>
+            <div class="menu-item">
+                <button id="btn12" class="btn btn-primary">12th Grade</button>
+            </div>
+            <div class="menu-item">
+                <select id="select12">
+                </select>
+            </div>
+        </div>
         <div class="jumbotron">
             <div class="container">
                 <h2>Total Donations</h2>
                 <h6>Sorted by Student ID</h6>
-                <div class="row">
-                    <div class="col-xs-6 col-md-2 col-md-push-2">
-                        <button id="btn9" class="btn btn-primary">9th Grade</button>
-                    </div>
-                    <div class="col-xs-6 col-md-2 col-md-push-2">
-                        <button id="btn10" class="btn btn-primary">10th Grade</button>
-                    </div>
-                    <div class="col-xs-6 col-md-2 col-md-push-2">
-                        <button id="btn11" class="btn btn-primary">11th Grade</button>
-                    </div>
-                    <div class="col-xs-6 col-md-2 col-md-push-2">
-                        <button id="btn12" class="btn btn-primary">12th Grade</button>
-                    </div>
-                </div>
+                
                 <br><br>
                 <table>
                     <thead>
@@ -87,6 +120,7 @@
             $("#btn12").on("click", function(){
                requestData("12"); 
             });
+            
 
         </script>
     </body>
