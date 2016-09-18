@@ -142,7 +142,7 @@
           }
           function postTransaction(i, respArr){
             $.ajax({
-                url: "http://localhost:9000/transactions/"+
+                url: "transactions/"+
                 $("#student-id"+i).val()+"/"+$("#student-donation"+i).val(),
                 method: "POST",
                 success: function(res, txt, xhr){

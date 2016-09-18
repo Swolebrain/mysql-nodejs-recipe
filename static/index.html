@@ -124,7 +124,7 @@
           populateSelects("12");
 
           function populateSelects(g){
-              $.ajax({ url: "http://localhost:9000/getsections/"+g,
+              $.ajax({ url: "getsections/"+g,
                       success: function(resp){
                           var select = $("#select"+g);
                           for (var i =0; i < resp.length; i++){
@@ -138,7 +138,7 @@
           function requestData(grade){
               $("#query-output").html("");
               $.ajax({
-                  url: "http://localhost:9000/bygrade/"+grade,
+                  url: "bygrade/"+grade,
                   success: function(res){
                       console.log(res);
                       for (var i = 0; i < res.length; i++){
@@ -157,7 +157,7 @@
           function requestDataBySection(secid){
               $("#query-output").html("");
               $.ajax({
-                  url: "http://localhost:9000/bysection/"+secid,
+                  url: "bysection/"+secid,
                   success: function(res){
                       console.log(res);
                       for (var i = 0; i < res.length; i++){

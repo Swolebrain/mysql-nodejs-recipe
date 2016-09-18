@@ -16,10 +16,10 @@ lname VARCHAR(32) NOT NULL,
 mname CHAR(1),
 section_id VARCHAR(16) NOT NULL);
 
-LOAD DATA INFILE 'C:/Users/Victor/Documents/GitHub/mysql-nodejs-recipe/sections.csv' 
-INTO TABLE sections FIELDS TERMINATED BY ',' 
+LOAD DATA INFILE 'sections.csv'
+INTO TABLE sections FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\r\n' IGNORE 1 LINES;
 
-LOAD DATA INFILE 'C:/Users/Victor/Documents/GitHub/mysql-nodejs-recipe/studentTable.csv' 
-INTO TABLE students FIELDS TERMINATED BY ',' 
+LOAD DATA INFILE 'studentTable.csv' 
+INTO TABLE students FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\r\n' IGNORE 1 LINES;

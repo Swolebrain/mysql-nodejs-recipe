@@ -46,7 +46,7 @@
       <script>
           $(document).ready(function(){
               $.ajax({
-                  url: "http://localhost:9000/transactions",
+                  url: "transactions",
                   success: function(res){
                       for (var i = 0; i < res.length; i++){
                           $("#query-output").append(
