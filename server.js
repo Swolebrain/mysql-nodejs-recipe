@@ -50,6 +50,19 @@ app.post('/transactions/:sid/:donation', function(req, res){
         }
     });
 });
+app.delete('/transactions/:sid', function(req,res){
+	console.log('received transaction deletion request - '+req.params.switchid);
+	connection.query(`DELETE FROM transactions WHERE sid=${req.params.sid}`, function(err){
+		if (err){
+			console.log("FAILED: deleting transaction id "+req.params.sid);
+			res.end("error");
+		}
+		else{
+			console.log("DB deletion succeeded");
+			res.end("Success");
+		}
+	});
+});
 
 app.get('/bygrade/:grade', function(req,res){
     var grade = req.params.grade;
