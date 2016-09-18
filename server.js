@@ -25,13 +25,14 @@ app.use(function(req, res, next){
 	next();
 });
 app.use(    bodyParser.urlencoded( {extended: true})    );
+app.use(express.static('static'));
 
 app.get('/transactions', function(req,res){
 	connection.query("SELECT sid, SUM(donation) AS donation FROM transactions"+
                      " GROUP BY sid", function(err, rows){
         if (!err){
             res.setHeader("Content-Type", "application/json");
-			res.end(JSON.stringify(rows));//Important! this is how you actually
+						res.end(JSON.stringify(rows));//Important! this is how you actually
                                           //send back a response
         }else{
             console.log("There was an eror in the query");
@@ -57,9 +58,12 @@ app.post('/transactions/:sid/:donation', function(req, res){
 
 app.get('/bygrade/:grade', function(req,res){
     var grade = req.params.grade;
-    var queryStr = "SELECT sid, fname, lname, sum_donation, sections.section_id, grade FROM (select sid, sum(donation) AS sum_donation, fname, lname, section_id from transactions NATURAL JOIN students group by sid) AS all_info JOIN sections ON all_info.section_id = sections.section_id ";
+    var queryStr = `SELECT sid, fname, lname, sum_donation, all_info.section_id, grade FROM
+												(select sid, sum(donation) AS sum_donation, fname, lname, section_id
+												from transactions NATURAL JOIN students group by sid) AS all_info
+										JOIN sections ON all_info.section_id = sections.section_id `;
     if (grade != "all")
-        queryStr += "WHERE grade='"+grade+"'";
+        queryStr += "WHERE grade="+grade;
     connection.query(queryStr, function(err, rows){
             if (err){
                 console.log("Query by grade failed");
@@ -91,15 +95,17 @@ app.get('/bysection/:sectionid', function(req,res){
 
 app.get('/getsections/:grade', function(req, res){
     var grade = req.params.grade;
+		console.log(req.params);
     var queryStr = "SELECT section_id, teacher_name from sections WHERE "+
-            "grade = '"+grade+"'";
+            "grade = "+grade;
     connection.query(queryStr, function(err, rows){
         if (err){
                 console.log("Sections query failed - "+ err);
                 res.end("DB error - "+ err);
         }
         else{
-            console.log("Query by section succeeded");
+            console.log("Query by section succeeded, retrieved: ");
+						console.log(JSON.stringify(rows));
             res.setHeader("Content-Type", "application/json");
             res.end(JSON.stringify(rows));
         }
@@ -109,4 +115,3 @@ app.get('/getsections/:grade', function(req, res){
 
 app.listen(port);
 console.log("Server listening on port "+port);
-

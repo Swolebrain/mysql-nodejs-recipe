@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Donation Collection Page</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <style>
+            table, tr{
+                width: 50%;
+                border-bottom: 1px solid white;
+                font-size: 16px;
+                margin: 0 auto;
+                text-align: center;
+            }
+            thead{
+                font-weight: bold;
+                color: white;
+                background-color: #999;
+            }
+            .jumbotron{
+                position:absolute;
+                width:80%;
+                right:0;
+            }
+            .menu{
+                position:absolute;
+                top:0;
+                left:0;
+                width:20%;
+            }
+            .menu-item, .menu h2{
+                text-align:center;
+                padding-top:25px;
+            }
+            select{
+                width:90%;
+            }
+
+        </style>
+        <link rel='stylesheet' href='style.css' />
+    </head>
+    <body>
+      <div id='pagination'>
+        <a class='btn btn-primary' href='index.html'>Reports</a>
+        <a class='btn btn-primary' href='collection.html'>Input transactions</a>
+        <a class='btn btn-primary' href='donations.html'>Show Transactions</a>
+      </div>
+      <div class="menu">
+          <h2>Select Report</h2>
+          <div class="menu-item">
+              <button id="btn9" class="btn btn-primary">9th Grade</button>
+          </div>
+          <div class="menu-item">
+              <select id="select9">
+              </select>
+          </div>
+          <div class="menu-item">
+              <button id="btn10" class="btn btn-primary">10th Grade</button>
+          </div>
+          <div class="menu-item">
+              <select id="select10">
+              </select>
+          </div>
+          <div class="menu-item">
+              <button id="btn11" class="btn btn-primary">11th Grade</button>
+          </div>
+          <div class="menu-item">
+              <select id="select11">
+              </select>
+          </div>
+          <div class="menu-item">
+              <button id="btn12" class="btn btn-primary">12th Grade</button>
+          </div>
+          <div class="menu-item">
+              <select id="select12">
+              </select>
+          </div>
+      </div>
+      <div class="jumbotron">
+          <div class="container">
+              <h2>Total Donations</h2>
+              <h6>Sorted by Student ID</h6>
+
+              <br><br>
+              <table>
+                  <thead>
+                      <tr>
+                          <td>Student ID</td>
+                          <td>First Name</td>
+                          <td>Last Name</td>
+                          <td>Grade</td>
+                          <td>Total Contribution</td>
+                      </tr>
+                  </thead>
+                  <tbody id="query-output">
+
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script>
+
+
+          $("#btn9").on("click", function(){
+             requestData("9");
+          });
+          $("#btn10").on("click", function(){
+             requestData("10");
+          });
+          $("#btn11").on("click", function(){
+             requestData("11");
+          });
+          $("#btn12").on("click", function(){
+             requestData("12");
+          });
+
+          $("select").on("change", function(e){
+              requestDataBySection( $(this).val() );
+          });
+
+          populateSelects("9");
+          populateSelects("10");
+          populateSelects("11");
+          populateSelects("12");
+
+          function populateSelects(g){
+              $.ajax({ url: "http://localhost:9000/getsections/"+g,
+                      success: function(resp){
+                          var select = $("#select"+g);
+                          for (var i =0; i < resp.length; i++){
+                              select.append('<option value="'+resp[i].section_id+'">'+
+                                  resp[i].teacher_name+" "+resp[i].section_id+'</option>');
+                          }
+                      }
+              });
+          }
+
+          function requestData(grade){
+              $("#query-output").html("");
+              $.ajax({
+                  url: "http://localhost:9000/bygrade/"+grade,
+                  success: function(res){
+                      console.log(res);
+                      for (var i = 0; i < res.length; i++){
+                          $("#query-output").append(
+                          "<tr><td>"+res[i].sid+"</td>"+
+                          "<td>"+res[i].fname+"</td>"+
+                          "<td>"+res[i].lname+"</td>"+
+                          "<td>"+res[i].grade+"</td>"+
+                          "<td>"+res[i].sum_donation+"</td></tr>"
+                          );
+                      }
+                  }
+              });
+          }
+
+          function requestDataBySection(secid){
+              $("#query-output").html("");
+              $.ajax({
+                  url: "http://localhost:9000/bysection/"+secid,
+                  success: function(res){
+                      console.log(res);
+                      for (var i = 0; i < res.length; i++){
+                          $("#query-output").append(
+                          "<tr><td>"+res[i].sid+"</td>"+
+                          "<td>"+res[i].fname+"</td>"+
+                          "<td>"+res[i].lname+"</td>"+
+                          "<td>"+res[i].section_id.substring(0, res[i].section_id.length-1)+"</td>"+
+                          "<td>"+res[i].sum_donation+"</td></tr>"
+                          );
+                      }
+                  }
+              });
+          }
+
+
+      </script>
+    </body>
+</html>
