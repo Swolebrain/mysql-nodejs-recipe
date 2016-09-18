@@ -2,12 +2,7 @@
 *************MySQL Connection stuff******************
 */
 var mysql = require('mysql');
-var connection = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: '',
-	database: 'fundraising_app'
-});
+var connection = mysql.createConnection(require('./.dbconfig.json'));
 connection.connect();
 
 /*
