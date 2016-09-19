@@ -123,30 +123,35 @@
           function clickHandler(){
               $("#btn-submit").off("click");
               $("#btn-submit").html("Processing...");
-              const gen = fireAllAjaxRequests();
+              //const gen = fireAllAjaxRequests();
               gen.next();
           }
           function* fireAllAjaxRequests(){
             let responses = [];
             for (let i = 1; i <= 8; i++){
               if ($("#student-id"+i).val().length > 0 || $("#student-donation"+i).val().length > 0)
-                yield postTransaction(i, responses);
+                responses.push(yield postTransaction(i, responses));
             }
             $("#btn-submit").on("click", clickHandler);
             $("#btn-submit").html("Submit");
             console.log(responses);
             responses.forEach( (e,i)=> $('#results').append(`<p>
-                Transaction ${i}: ${responses[i]}
+                Transaction ${i+1}: ${responses[i]}
               </p>`));
             let numFails = responses.reduce( (p,c)=> c==='Success'?p+0:p+1,0);
+            if (numfails === 0){
+              setTimeout(function(){
+                $("input").val("");
+                $("#results").html("");
+              },2000);
+            }
           }
-          function postTransaction(i, respArr){
+          function postTransaction(i){
             $.ajax({
                 url: "transactions/"+
                 $("#student-id"+i).val()+"/"+$("#student-donation"+i).val(),
                 method: "POST",
                 success: function(res, txt, xhr){
-                  respArr[i] = res;
                   gen.next(res);
                 },
                 error: function(err){
