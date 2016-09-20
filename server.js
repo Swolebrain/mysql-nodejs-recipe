@@ -120,6 +120,25 @@ app.get('/getsections/:grade', function(req, res){
     });
 });
 
+app.get('/student-name/:id', function(req, res){
+	var queryStr = `SELECT fname, lname FROM students WHERE sid='${req.params.id}'`;
+	connection.query(queryStr, function(err, rows){
+		if (err){
+			res.end('db error, reload page');
+			console.log(err.toString());
+		}
+		else{
+			console.log('rows: '+JSON.stringify(rows));
+			if (rows && rows.length > 0){
+				res.end(rows[0].fname+' '+ rows[0].lname);
+			}
+			else{
+				res.end('not found');
+			}
+		}
+	});
+});
+
 
 app.listen(port);
 console.log("Server listening on port "+port);
