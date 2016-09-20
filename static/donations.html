@@ -65,12 +65,13 @@
                 url: "transactions",
                 success: function(res){
                     for (var i = 0; i < res.length; i++){
-                        $("#query-output").append(
-                        `<tr><td>${res[i].sid}</td>
-                        <td>${res[i].donation}</td>
-                        <td><button class='del-trans btn btn-danger' data-sid='${res[i].sid}'>Delete</button></td>
-                        </tr>`
-                        );
+                      let donation = Number(res[i].donation).toFixed(2);
+                      $("#query-output").append(
+                      `<tr><td>${res[i].sid}</td>
+                      <td>${donation}</td>
+                      <td><button class='del-trans btn btn-danger' data-sid='${res[i].sid}'>Delete</button></td>
+                      </tr>`
+                      );
                     }
                 }
             });
