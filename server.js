@@ -66,10 +66,15 @@ app.delete('/transactions/:sid', function(req,res){
 
 app.get('/bygrade/:grade', function(req,res){
     var grade = req.params.grade;
-    var queryStr = `SELECT sid, fname, lname, sum_donation, all_info.section_id, grade FROM
+    /*var queryStr = `SELECT sid, fname, lname, sum_donation, all_info.section_id, grade FROM
 												(select sid, sum(donation) AS sum_donation, fname, lname, section_id
 												from transactions NATURAL JOIN students group by sid) AS all_info
-										JOIN sections ON all_info.section_id = sections.section_id `;
+										JOIN sections ON all_info.section_id = sections.section_id `;*/
+		var queryStr = `select students.sid, students.fname, students.lname, students.section_id, trans.sum_donation, grade
+										from students LEFT JOIN
+											(SELECT sid, sum(donation) as sum_donation from transactions group by sid) AS trans
+										ON students.sid = trans.sid
+										JOIN sections ON sections.section_id = students.section_id `;
     if (grade != "all")
         queryStr += "WHERE grade="+grade;
     connection.query(queryStr, function(err, rows){
@@ -87,8 +92,12 @@ app.get('/bygrade/:grade', function(req,res){
 
 app.get('/bysection/:sectionid', function(req,res){
     var sectionid = req.params.sectionid;
-    var queryStr = "select * from students NATURAL JOIN (SELECT sid, sum(donation) as sum_donation from transactions group by sid) AS trans WHERE section_id = '"+sectionid+"'";
-    connection.query(queryStr, function(err, rows){
+    var queryStr = `select students.sid, students.fname, students.lname, students.section_id, trans.sum_donation
+										from students LEFT JOIN
+											(SELECT sid, sum(donation) as sum_donation from transactions group by sid) AS trans
+										ON students.sid = trans.sid
+										WHERE section_id ='${sectionid}'`;
+		connection.query(queryStr, function(err, rows){
         if (err){
                 console.log("Section id query failed - "+ err);
                 res.end("DB error - "+ err);

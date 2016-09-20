@@ -142,13 +142,14 @@
                   success: function(res){
                       console.log(res);
                       for (var i = 0; i < res.length; i++){
-                          $("#query-output").append(
-                          "<tr><td>"+res[i].sid+"</td>"+
-                          "<td>"+res[i].fname+"</td>"+
-                          "<td>"+res[i].lname+"</td>"+
-                          "<td>"+res[i].grade+"</td>"+
-                          "<td>"+res[i].sum_donation+"</td></tr>"
-                          );
+                        res[i].sum_donation = res[i].sum_donation || "0";
+                        $("#query-output").append(
+                        "<tr><td>"+res[i].sid+"</td>"+
+                        "<td>"+res[i].fname+"</td>"+
+                        "<td>"+res[i].lname+"</td>"+
+                        "<td>"+res[i].grade+"</td>"+
+                        "<td>"+res[i].sum_donation+"</td></tr>"
+                        );
                       }
                   }
               });
@@ -161,13 +162,14 @@
                   success: function(res){
                       console.log(res);
                       for (var i = 0; i < res.length; i++){
-                          $("#query-output").append(
-                          "<tr><td>"+res[i].sid+"</td>"+
-                          "<td>"+res[i].fname+"</td>"+
-                          "<td>"+res[i].lname+"</td>"+
-                          "<td>"+res[i].section_id.substring(0, res[i].section_id.length-1)+"</td>"+
-                          "<td>"+res[i].sum_donation+"</td></tr>"
-                          );
+                        res[i].sum_donation = res[i].sum_donation || "0";
+                        $("#query-output").append(
+                        "<tr><td>"+res[i].sid+"</td>"+
+                        "<td>"+res[i].fname+"</td>"+
+                        "<td>"+res[i].lname+"</td>"+
+                        "<td>"+res[i].section_id.substring(0, res[i].section_id.length-1)+"</td>"+
+                        "<td>"+res[i].sum_donation+"</td></tr>"
+                        );
                       }
                   }
               });
