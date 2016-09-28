@@ -10,8 +10,21 @@
   font-weight:bold;
 }
 
+tr:nth-child(odd){
+  background-color: #D0D0D0;
+}
+
 @media print{
-  .menu{
-    display:none;  
+  .menu, #pagination{
+    display:none;
+  }
+  td{
+    font-size:1rem;
+  }
+  .jumbotron{
+    right: 10%;
+  }
+  tr{
+    border-bottom: 1px solid #0f0f0f;
   }
 }
