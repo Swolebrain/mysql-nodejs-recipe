@@ -4,3 +4,14 @@
   top:0;
   z-index:10;
 }
+
+.total-row{
+  background-color: #F0F0F0;
+  font-weight:bold;
+}
+
+@media print{
+  .menu{
+    display:none;  
+  }
+}
